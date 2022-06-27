@@ -4,9 +4,11 @@ import (
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91 "github.com/microsoft/kiota-abstractions-go/serialization"
 )
 
-// DriveItem provides operations to manage the collection of application entities.
+// DriveItem provides operations to manage the collection of agreementAcceptance entities.
 type DriveItem struct {
     BaseItem
+    // Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+    additionalData map[string]interface{}
     // Analytics about the view activities that took place on this item.
     analytics ItemAnalyticsable
     // Audio metadata, if the item is an audio file. Read-only. Only on OneDrive Personal.
@@ -77,11 +79,20 @@ func NewDriveItem()(*DriveItem) {
     m := &DriveItem{
         BaseItem: *NewBaseItem(),
     }
+    m.SetAdditionalData(make(map[string]interface{}));
     return m
 }
 // CreateDriveItemFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
 func CreateDriveItemFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewDriveItem(), nil
+}
+// GetAdditionalData gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+func (m *DriveItem) GetAdditionalData()(map[string]interface{}) {
+    if m == nil {
+        return nil
+    } else {
+        return m.additionalData
+    }
 }
 // GetAnalytics gets the analytics property value. Analytics about the view activities that took place on this item.
 func (m *DriveItem) GetAnalytics()(ItemAnalyticsable) {
@@ -902,7 +913,19 @@ func (m *DriveItem) Serialize(writer i878a80d2330e89d26896388a3f487eef27b0a0e6c0
             return err
         }
     }
+    {
+        err = writer.WriteAdditionalData(m.GetAdditionalData())
+        if err != nil {
+            return err
+        }
+    }
     return nil
+}
+// SetAdditionalData sets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+func (m *DriveItem) SetAdditionalData(value map[string]interface{})() {
+    if m != nil {
+        m.additionalData = value
+    }
 }
 // SetAnalytics sets the analytics property value. Analytics about the view activities that took place on this item.
 func (m *DriveItem) SetAnalytics(value ItemAnalyticsable)() {

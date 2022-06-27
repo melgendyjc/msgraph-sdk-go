@@ -4,17 +4,20 @@ import (
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91 "github.com/microsoft/kiota-abstractions-go/serialization"
 )
 
-// IdentityProviderBase provides operations to manage the collection of domain entities.
+// IdentityProviderBase 
 type IdentityProviderBase struct {
     Entity
+    // Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+    additionalData map[string]interface{}
     // The display name of the identity provider.
     displayName *string
 }
-// NewIdentityProviderBase instantiates a new identityProviderBase and sets the default values.
+// NewIdentityProviderBase instantiates a new IdentityProviderBase and sets the default values.
 func NewIdentityProviderBase()(*IdentityProviderBase) {
     m := &IdentityProviderBase{
         Entity: *NewEntity(),
     }
+    m.SetAdditionalData(make(map[string]interface{}));
     return m
 }
 // CreateIdentityProviderBaseFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
@@ -45,6 +48,14 @@ func CreateIdentityProviderBaseFromDiscriminatorValue(parseNode i878a80d2330e89d
         }
     }
     return NewIdentityProviderBase(), nil
+}
+// GetAdditionalData gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+func (m *IdentityProviderBase) GetAdditionalData()(map[string]interface{}) {
+    if m == nil {
+        return nil
+    } else {
+        return m.additionalData
+    }
 }
 // GetDisplayName gets the displayName property value. The display name of the identity provider.
 func (m *IdentityProviderBase) GetDisplayName()(*string) {
@@ -81,7 +92,19 @@ func (m *IdentityProviderBase) Serialize(writer i878a80d2330e89d26896388a3f487ee
             return err
         }
     }
+    {
+        err = writer.WriteAdditionalData(m.GetAdditionalData())
+        if err != nil {
+            return err
+        }
+    }
     return nil
+}
+// SetAdditionalData sets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+func (m *IdentityProviderBase) SetAdditionalData(value map[string]interface{})() {
+    if m != nil {
+        m.additionalData = value
+    }
 }
 // SetDisplayName sets the displayName property value. The display name of the identity provider.
 func (m *IdentityProviderBase) SetDisplayName(value *string)() {

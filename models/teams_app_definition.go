@@ -8,6 +8,8 @@ import (
 // TeamsAppDefinition provides operations to manage the appCatalogs singleton.
 type TeamsAppDefinition struct {
     Entity
+    // Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+    additionalData map[string]interface{}
     // The details of the bot specified in the Teams app manifest.
     bot TeamworkBotable
     // The createdBy property
@@ -32,11 +34,20 @@ func NewTeamsAppDefinition()(*TeamsAppDefinition) {
     m := &TeamsAppDefinition{
         Entity: *NewEntity(),
     }
+    m.SetAdditionalData(make(map[string]interface{}));
     return m
 }
 // CreateTeamsAppDefinitionFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
 func CreateTeamsAppDefinitionFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewTeamsAppDefinition(), nil
+}
+// GetAdditionalData gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+func (m *TeamsAppDefinition) GetAdditionalData()(map[string]interface{}) {
+    if m == nil {
+        return nil
+    } else {
+        return m.additionalData
+    }
 }
 // GetBot gets the bot property value. The details of the bot specified in the Teams app manifest.
 func (m *TeamsAppDefinition) GetBot()(TeamworkBotable) {
@@ -266,7 +277,19 @@ func (m *TeamsAppDefinition) Serialize(writer i878a80d2330e89d26896388a3f487eef2
             return err
         }
     }
+    {
+        err = writer.WriteAdditionalData(m.GetAdditionalData())
+        if err != nil {
+            return err
+        }
+    }
     return nil
+}
+// SetAdditionalData sets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+func (m *TeamsAppDefinition) SetAdditionalData(value map[string]interface{})() {
+    if m != nil {
+        m.additionalData = value
+    }
 }
 // SetBot sets the bot property value. The details of the bot specified in the Teams app manifest.
 func (m *TeamsAppDefinition) SetBot(value TeamworkBotable)() {

@@ -4,13 +4,15 @@ import (
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91 "github.com/microsoft/kiota-abstractions-go/serialization"
 )
 
-// EntitlementManagement provides operations to manage the identityGovernance singleton.
+// EntitlementManagement 
 type EntitlementManagement struct {
     Entity
     // Approval stages for decisions associated with access package assignment requests.
     accessPackageAssignmentApprovals []Approvalable
     // Represents access package objects.
     accessPackages []AccessPackageable
+    // Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+    additionalData map[string]interface{}
     // Access package assignment policies govern which subjects can request or be assigned an access package via an access package assignment.
     assignmentPolicies []AccessPackageAssignmentPolicyable
     // Access package assignment requests created by or on behalf of a subject.
@@ -24,11 +26,12 @@ type EntitlementManagement struct {
     // Represents the settings that control the behavior of Azure AD entitlement management.
     settings EntitlementManagementSettingsable
 }
-// NewEntitlementManagement instantiates a new entitlementManagement and sets the default values.
+// NewEntitlementManagement instantiates a new EntitlementManagement and sets the default values.
 func NewEntitlementManagement()(*EntitlementManagement) {
     m := &EntitlementManagement{
         Entity: *NewEntity(),
     }
+    m.SetAdditionalData(make(map[string]interface{}));
     return m
 }
 // CreateEntitlementManagementFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
@@ -49,6 +52,14 @@ func (m *EntitlementManagement) GetAccessPackages()([]AccessPackageable) {
         return nil
     } else {
         return m.accessPackages
+    }
+}
+// GetAdditionalData gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+func (m *EntitlementManagement) GetAdditionalData()(map[string]interface{}) {
+    if m == nil {
+        return nil
+    } else {
+        return m.additionalData
     }
 }
 // GetAssignmentPolicies gets the assignmentPolicies property value. Access package assignment policies govern which subjects can request or be assigned an access package via an access package assignment.
@@ -294,6 +305,12 @@ func (m *EntitlementManagement) Serialize(writer i878a80d2330e89d26896388a3f487e
             return err
         }
     }
+    {
+        err = writer.WriteAdditionalData(m.GetAdditionalData())
+        if err != nil {
+            return err
+        }
+    }
     return nil
 }
 // SetAccessPackageAssignmentApprovals sets the accessPackageAssignmentApprovals property value. Approval stages for decisions associated with access package assignment requests.
@@ -306,6 +323,12 @@ func (m *EntitlementManagement) SetAccessPackageAssignmentApprovals(value []Appr
 func (m *EntitlementManagement) SetAccessPackages(value []AccessPackageable)() {
     if m != nil {
         m.accessPackages = value
+    }
+}
+// SetAdditionalData sets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+func (m *EntitlementManagement) SetAdditionalData(value map[string]interface{})() {
+    if m != nil {
+        m.additionalData = value
     }
 }
 // SetAssignmentPolicies sets the assignmentPolicies property value. Access package assignment policies govern which subjects can request or be assigned an access package via an access package assignment.

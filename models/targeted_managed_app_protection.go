@@ -7,6 +7,8 @@ import (
 // TargetedManagedAppProtection 
 type TargetedManagedAppProtection struct {
     ManagedAppProtection
+    // Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+    additionalData map[string]interface{}
     // Navigation property to list of inclusion and exclusion groups to which the policy is deployed.
     assignments []TargetedManagedAppPolicyAssignmentable
     // Indicates if the policy is deployed to any inclusion groups or not.
@@ -17,6 +19,7 @@ func NewTargetedManagedAppProtection()(*TargetedManagedAppProtection) {
     m := &TargetedManagedAppProtection{
         ManagedAppProtection: *NewManagedAppProtection(),
     }
+    m.SetAdditionalData(make(map[string]interface{}));
     return m
 }
 // CreateTargetedManagedAppProtectionFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
@@ -43,6 +46,14 @@ func CreateTargetedManagedAppProtectionFromDiscriminatorValue(parseNode i878a80d
         }
     }
     return NewTargetedManagedAppProtection(), nil
+}
+// GetAdditionalData gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+func (m *TargetedManagedAppProtection) GetAdditionalData()(map[string]interface{}) {
+    if m == nil {
+        return nil
+    } else {
+        return m.additionalData
+    }
 }
 // GetAssignments gets the assignments property value. Navigation property to list of inclusion and exclusion groups to which the policy is deployed.
 func (m *TargetedManagedAppProtection) GetAssignments()([]TargetedManagedAppPolicyAssignmentable) {
@@ -111,7 +122,19 @@ func (m *TargetedManagedAppProtection) Serialize(writer i878a80d2330e89d26896388
             return err
         }
     }
+    {
+        err = writer.WriteAdditionalData(m.GetAdditionalData())
+        if err != nil {
+            return err
+        }
+    }
     return nil
+}
+// SetAdditionalData sets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+func (m *TargetedManagedAppProtection) SetAdditionalData(value map[string]interface{})() {
+    if m != nil {
+        m.additionalData = value
+    }
 }
 // SetAssignments sets the assignments property value. Navigation property to list of inclusion and exclusion groups to which the policy is deployed.
 func (m *TargetedManagedAppProtection) SetAssignments(value []TargetedManagedAppPolicyAssignmentable)() {

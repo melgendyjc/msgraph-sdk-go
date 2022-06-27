@@ -8,6 +8,8 @@ import (
 // ManagedDeviceMobileAppConfiguration an abstract class for Mobile app configuration for enrolled devices.
 type ManagedDeviceMobileAppConfiguration struct {
     Entity
+    // Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+    additionalData map[string]interface{}
     // The list of group assignemenets for app configration.
     assignments []ManagedDeviceMobileAppConfigurationAssignmentable
     // DateTime the object was created.
@@ -36,6 +38,7 @@ func NewManagedDeviceMobileAppConfiguration()(*ManagedDeviceMobileAppConfigurati
     m := &ManagedDeviceMobileAppConfiguration{
         Entity: *NewEntity(),
     }
+    m.SetAdditionalData(make(map[string]interface{}));
     return m
 }
 // CreateManagedDeviceMobileAppConfigurationFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
@@ -60,6 +63,14 @@ func CreateManagedDeviceMobileAppConfigurationFromDiscriminatorValue(parseNode i
         }
     }
     return NewManagedDeviceMobileAppConfiguration(), nil
+}
+// GetAdditionalData gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+func (m *ManagedDeviceMobileAppConfiguration) GetAdditionalData()(map[string]interface{}) {
+    if m == nil {
+        return nil
+    } else {
+        return m.additionalData
+    }
 }
 // GetAssignments gets the assignments property value. The list of group assignemenets for app configration.
 func (m *ManagedDeviceMobileAppConfiguration) GetAssignments()([]ManagedDeviceMobileAppConfigurationAssignmentable) {
@@ -364,7 +375,19 @@ func (m *ManagedDeviceMobileAppConfiguration) Serialize(writer i878a80d2330e89d2
             return err
         }
     }
+    {
+        err = writer.WriteAdditionalData(m.GetAdditionalData())
+        if err != nil {
+            return err
+        }
+    }
     return nil
+}
+// SetAdditionalData sets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+func (m *ManagedDeviceMobileAppConfiguration) SetAdditionalData(value map[string]interface{})() {
+    if m != nil {
+        m.additionalData = value
+    }
 }
 // SetAssignments sets the assignments property value. The list of group assignemenets for app configration.
 func (m *ManagedDeviceMobileAppConfiguration) SetAssignments(value []ManagedDeviceMobileAppConfigurationAssignmentable)() {

@@ -4,9 +4,11 @@ import (
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91 "github.com/microsoft/kiota-abstractions-go/serialization"
 )
 
-// IdentityContainer provides operations to manage the identityContainer singleton.
+// IdentityContainer 
 type IdentityContainer struct {
     Entity
+    // Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+    additionalData map[string]interface{}
     // Represents entry point for API connectors.
     apiConnectors []IdentityApiConnectorable
     // Represents entry point for B2X and self-service sign-up identity userflows.
@@ -18,16 +20,25 @@ type IdentityContainer struct {
     // Represents entry point for identity userflow attributes.
     userFlowAttributes []IdentityUserFlowAttributeable
 }
-// NewIdentityContainer instantiates a new identityContainer and sets the default values.
+// NewIdentityContainer instantiates a new IdentityContainer and sets the default values.
 func NewIdentityContainer()(*IdentityContainer) {
     m := &IdentityContainer{
         Entity: *NewEntity(),
     }
+    m.SetAdditionalData(make(map[string]interface{}));
     return m
 }
 // CreateIdentityContainerFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
 func CreateIdentityContainerFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewIdentityContainer(), nil
+}
+// GetAdditionalData gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+func (m *IdentityContainer) GetAdditionalData()(map[string]interface{}) {
+    if m == nil {
+        return nil
+    } else {
+        return m.additionalData
+    }
 }
 // GetApiConnectors gets the apiConnectors property value. Represents entry point for API connectors.
 func (m *IdentityContainer) GetApiConnectors()([]IdentityApiConnectorable) {
@@ -192,7 +203,19 @@ func (m *IdentityContainer) Serialize(writer i878a80d2330e89d26896388a3f487eef27
             return err
         }
     }
+    {
+        err = writer.WriteAdditionalData(m.GetAdditionalData())
+        if err != nil {
+            return err
+        }
+    }
     return nil
+}
+// SetAdditionalData sets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+func (m *IdentityContainer) SetAdditionalData(value map[string]interface{})() {
+    if m != nil {
+        m.additionalData = value
+    }
 }
 // SetApiConnectors sets the apiConnectors property value. Represents entry point for API connectors.
 func (m *IdentityContainer) SetApiConnectors(value []IdentityApiConnectorable)() {

@@ -4,11 +4,13 @@ import (
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91 "github.com/microsoft/kiota-abstractions-go/serialization"
 )
 
-// PolicyRoot provides operations to manage the policyRoot singleton.
+// PolicyRoot 
 type PolicyRoot struct {
     Entity
     // The policy that controls the idle time out for web sessions for applications.
     activityBasedTimeoutPolicies []ActivityBasedTimeoutPolicyable
+    // Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+    additionalData map[string]interface{}
     // The policy by which consent requests are created and managed for the entire tenant.
     adminConsentRequestPolicy AdminConsentRequestPolicyable
     // The policy configuration of the self-service sign-up experience of external users.
@@ -38,11 +40,12 @@ type PolicyRoot struct {
     // The policy that controls the lifetime of a JWT access token, an ID token, or a SAML 1.1/2.0 token issued by Azure AD.
     tokenLifetimePolicies []TokenLifetimePolicyable
 }
-// NewPolicyRoot instantiates a new policyRoot and sets the default values.
+// NewPolicyRoot instantiates a new PolicyRoot and sets the default values.
 func NewPolicyRoot()(*PolicyRoot) {
     m := &PolicyRoot{
         Entity: *NewEntity(),
     }
+    m.SetAdditionalData(make(map[string]interface{}));
     return m
 }
 // CreatePolicyRootFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
@@ -55,6 +58,14 @@ func (m *PolicyRoot) GetActivityBasedTimeoutPolicies()([]ActivityBasedTimeoutPol
         return nil
     } else {
         return m.activityBasedTimeoutPolicies
+    }
+}
+// GetAdditionalData gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+func (m *PolicyRoot) GetAdditionalData()(map[string]interface{}) {
+    if m == nil {
+        return nil
+    } else {
+        return m.additionalData
     }
 }
 // GetAdminConsentRequestPolicy gets the adminConsentRequestPolicy property value. The policy by which consent requests are created and managed for the entire tenant.
@@ -500,12 +511,24 @@ func (m *PolicyRoot) Serialize(writer i878a80d2330e89d26896388a3f487eef27b0a0e6c
             return err
         }
     }
+    {
+        err = writer.WriteAdditionalData(m.GetAdditionalData())
+        if err != nil {
+            return err
+        }
+    }
     return nil
 }
 // SetActivityBasedTimeoutPolicies sets the activityBasedTimeoutPolicies property value. The policy that controls the idle time out for web sessions for applications.
 func (m *PolicyRoot) SetActivityBasedTimeoutPolicies(value []ActivityBasedTimeoutPolicyable)() {
     if m != nil {
         m.activityBasedTimeoutPolicies = value
+    }
+}
+// SetAdditionalData sets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+func (m *PolicyRoot) SetAdditionalData(value map[string]interface{})() {
+    if m != nil {
+        m.additionalData = value
     }
 }
 // SetAdminConsentRequestPolicy sets the adminConsentRequestPolicy property value. The policy by which consent requests are created and managed for the entire tenant.

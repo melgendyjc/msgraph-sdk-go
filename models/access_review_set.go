@@ -4,24 +4,35 @@ import (
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91 "github.com/microsoft/kiota-abstractions-go/serialization"
 )
 
-// AccessReviewSet provides operations to manage the identityGovernance singleton.
+// AccessReviewSet 
 type AccessReviewSet struct {
     Entity
+    // Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+    additionalData map[string]interface{}
     // Represents the template and scheduling for an access review.
     definitions []AccessReviewScheduleDefinitionable
     // Represents a collection of access review history data and the scopes used to collect that data.
     historyDefinitions []AccessReviewHistoryDefinitionable
 }
-// NewAccessReviewSet instantiates a new accessReviewSet and sets the default values.
+// NewAccessReviewSet instantiates a new AccessReviewSet and sets the default values.
 func NewAccessReviewSet()(*AccessReviewSet) {
     m := &AccessReviewSet{
         Entity: *NewEntity(),
     }
+    m.SetAdditionalData(make(map[string]interface{}));
     return m
 }
 // CreateAccessReviewSetFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
 func CreateAccessReviewSetFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewAccessReviewSet(), nil
+}
+// GetAdditionalData gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+func (m *AccessReviewSet) GetAdditionalData()(map[string]interface{}) {
+    if m == nil {
+        return nil
+    } else {
+        return m.additionalData
+    }
 }
 // GetDefinitions gets the definitions property value. Represents the template and scheduling for an access review.
 func (m *AccessReviewSet) GetDefinitions()([]AccessReviewScheduleDefinitionable) {
@@ -98,7 +109,19 @@ func (m *AccessReviewSet) Serialize(writer i878a80d2330e89d26896388a3f487eef27b0
             return err
         }
     }
+    {
+        err = writer.WriteAdditionalData(m.GetAdditionalData())
+        if err != nil {
+            return err
+        }
+    }
     return nil
+}
+// SetAdditionalData sets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+func (m *AccessReviewSet) SetAdditionalData(value map[string]interface{})() {
+    if m != nil {
+        m.additionalData = value
+    }
 }
 // SetDefinitions sets the definitions property value. Represents the template and scheduling for an access review.
 func (m *AccessReviewSet) SetDefinitions(value []AccessReviewScheduleDefinitionable)() {

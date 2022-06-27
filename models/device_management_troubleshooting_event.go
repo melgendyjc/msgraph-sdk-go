@@ -8,6 +8,8 @@ import (
 // DeviceManagementTroubleshootingEvent event representing an general failure.
 type DeviceManagementTroubleshootingEvent struct {
     Entity
+    // Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+    additionalData map[string]interface{}
     // Id used for tracing the failure in the service.
     correlationId *string
     // Time when the event occurred .
@@ -18,6 +20,7 @@ func NewDeviceManagementTroubleshootingEvent()(*DeviceManagementTroubleshootingE
     m := &DeviceManagementTroubleshootingEvent{
         Entity: *NewEntity(),
     }
+    m.SetAdditionalData(make(map[string]interface{}));
     return m
 }
 // CreateDeviceManagementTroubleshootingEventFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
@@ -42,6 +45,14 @@ func CreateDeviceManagementTroubleshootingEventFromDiscriminatorValue(parseNode 
         }
     }
     return NewDeviceManagementTroubleshootingEvent(), nil
+}
+// GetAdditionalData gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+func (m *DeviceManagementTroubleshootingEvent) GetAdditionalData()(map[string]interface{}) {
+    if m == nil {
+        return nil
+    } else {
+        return m.additionalData
+    }
 }
 // GetCorrelationId gets the correlationId property value. Id used for tracing the failure in the service.
 func (m *DeviceManagementTroubleshootingEvent) GetCorrelationId()(*string) {
@@ -102,7 +113,19 @@ func (m *DeviceManagementTroubleshootingEvent) Serialize(writer i878a80d2330e89d
             return err
         }
     }
+    {
+        err = writer.WriteAdditionalData(m.GetAdditionalData())
+        if err != nil {
+            return err
+        }
+    }
     return nil
+}
+// SetAdditionalData sets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+func (m *DeviceManagementTroubleshootingEvent) SetAdditionalData(value map[string]interface{})() {
+    if m != nil {
+        m.additionalData = value
+    }
 }
 // SetCorrelationId sets the correlationId property value. Id used for tracing the failure in the service.
 func (m *DeviceManagementTroubleshootingEvent) SetCorrelationId(value *string)() {

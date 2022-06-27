@@ -5,9 +5,11 @@ import (
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91 "github.com/microsoft/kiota-abstractions-go/serialization"
 )
 
-// PlannerPlan provides operations to manage the collection of application entities.
+// PlannerPlan provides operations to manage the collection of agreementAcceptance entities.
 type PlannerPlan struct {
     Entity
+    // Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+    additionalData map[string]interface{}
     // Collection of buckets in the plan. Read-only. Nullable.
     buckets []PlannerBucketable
     // Identifies the container of the plan. After it is set, this property can’t be updated. Required.
@@ -30,11 +32,20 @@ func NewPlannerPlan()(*PlannerPlan) {
     m := &PlannerPlan{
         Entity: *NewEntity(),
     }
+    m.SetAdditionalData(make(map[string]interface{}));
     return m
 }
 // CreatePlannerPlanFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
 func CreatePlannerPlanFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewPlannerPlan(), nil
+}
+// GetAdditionalData gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+func (m *PlannerPlan) GetAdditionalData()(map[string]interface{}) {
+    if m == nil {
+        return nil
+    } else {
+        return m.additionalData
+    }
 }
 // GetBuckets gets the buckets property value. Collection of buckets in the plan. Read-only. Nullable.
 func (m *PlannerPlan) GetBuckets()([]PlannerBucketable) {
@@ -255,7 +266,19 @@ func (m *PlannerPlan) Serialize(writer i878a80d2330e89d26896388a3f487eef27b0a0e6
             return err
         }
     }
+    {
+        err = writer.WriteAdditionalData(m.GetAdditionalData())
+        if err != nil {
+            return err
+        }
+    }
     return nil
+}
+// SetAdditionalData sets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+func (m *PlannerPlan) SetAdditionalData(value map[string]interface{})() {
+    if m != nil {
+        m.additionalData = value
+    }
 }
 // SetBuckets sets the buckets property value. Collection of buckets in the plan. Read-only. Nullable.
 func (m *PlannerPlan) SetBuckets(value []PlannerBucketable)() {

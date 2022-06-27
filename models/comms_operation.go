@@ -4,9 +4,11 @@ import (
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91 "github.com/microsoft/kiota-abstractions-go/serialization"
 )
 
-// CommsOperation provides operations to manage the cloudCommunications singleton.
+// CommsOperation provides operations to manage the collection of agreementAcceptance entities.
 type CommsOperation struct {
     Entity
+    // Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+    additionalData map[string]interface{}
     // Unique Client Context string. Max limit is 256 chars.
     clientContext *string
     // The result information. Read-only.
@@ -19,6 +21,7 @@ func NewCommsOperation()(*CommsOperation) {
     m := &CommsOperation{
         Entity: *NewEntity(),
     }
+    m.SetAdditionalData(make(map[string]interface{}));
     return m
 }
 // CreateCommsOperationFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
@@ -61,6 +64,14 @@ func CreateCommsOperationFromDiscriminatorValue(parseNode i878a80d2330e89d268963
         }
     }
     return NewCommsOperation(), nil
+}
+// GetAdditionalData gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+func (m *CommsOperation) GetAdditionalData()(map[string]interface{}) {
+    if m == nil {
+        return nil
+    } else {
+        return m.additionalData
+    }
 }
 // GetClientContext gets the clientContext property value. Unique Client Context string. Max limit is 256 chars.
 func (m *CommsOperation) GetClientContext()(*string) {
@@ -146,7 +157,19 @@ func (m *CommsOperation) Serialize(writer i878a80d2330e89d26896388a3f487eef27b0a
             return err
         }
     }
+    {
+        err = writer.WriteAdditionalData(m.GetAdditionalData())
+        if err != nil {
+            return err
+        }
+    }
     return nil
+}
+// SetAdditionalData sets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+func (m *CommsOperation) SetAdditionalData(value map[string]interface{})() {
+    if m != nil {
+        m.additionalData = value
+    }
 }
 // SetClientContext sets the clientContext property value. Unique Client Context string. Max limit is 256 chars.
 func (m *CommsOperation) SetClientContext(value *string)() {

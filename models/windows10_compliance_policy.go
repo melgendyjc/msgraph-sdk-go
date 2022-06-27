@@ -7,6 +7,8 @@ import (
 // Windows10CompliancePolicy 
 type Windows10CompliancePolicy struct {
     DeviceCompliancePolicy
+    // Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+    additionalData map[string]interface{}
     // Require devices to be reported healthy by Windows Device Health Attestation - bit locker is enabled
     bitLockerEnabled *bool
     // Require devices to be reported as healthy by Windows Device Health Attestation.
@@ -51,11 +53,20 @@ func NewWindows10CompliancePolicy()(*Windows10CompliancePolicy) {
     m := &Windows10CompliancePolicy{
         DeviceCompliancePolicy: *NewDeviceCompliancePolicy(),
     }
+    m.SetAdditionalData(make(map[string]interface{}));
     return m
 }
 // CreateWindows10CompliancePolicyFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
 func CreateWindows10CompliancePolicyFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewWindows10CompliancePolicy(), nil
+}
+// GetAdditionalData gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+func (m *Windows10CompliancePolicy) GetAdditionalData()(map[string]interface{}) {
+    if m == nil {
+        return nil
+    } else {
+        return m.additionalData
+    }
 }
 // GetBitLockerEnabled gets the bitLockerEnabled property value. Require devices to be reported healthy by Windows Device Health Attestation - bit locker is enabled
 func (m *Windows10CompliancePolicy) GetBitLockerEnabled()(*bool) {
@@ -525,7 +536,19 @@ func (m *Windows10CompliancePolicy) Serialize(writer i878a80d2330e89d26896388a3f
             return err
         }
     }
+    {
+        err = writer.WriteAdditionalData(m.GetAdditionalData())
+        if err != nil {
+            return err
+        }
+    }
     return nil
+}
+// SetAdditionalData sets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+func (m *Windows10CompliancePolicy) SetAdditionalData(value map[string]interface{})() {
+    if m != nil {
+        m.additionalData = value
+    }
 }
 // SetBitLockerEnabled sets the bitLockerEnabled property value. Require devices to be reported healthy by Windows Device Health Attestation - bit locker is enabled
 func (m *Windows10CompliancePolicy) SetBitLockerEnabled(value *bool)() {

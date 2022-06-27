@@ -5,9 +5,11 @@ import (
     iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242 "github.com/microsoftgraph/msgraph-sdk-go/models"
 )
 
-// ConnectionOperation provides operations to manage the collection of externalConnection entities.
+// ConnectionOperation provides operations to manage the collection of agreementAcceptance entities.
 type ConnectionOperation struct {
     iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.Entity
+    // Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+    additionalData map[string]interface{}
     // If status is failed, provides more information about the error that caused the failure.
     error iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.PublicErrorable
     // Indicates the status of the asynchronous operation. Possible values are: unspecified, inprogress, completed, failed.
@@ -18,11 +20,20 @@ func NewConnectionOperation()(*ConnectionOperation) {
     m := &ConnectionOperation{
         Entity: *iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.NewEntity(),
     }
+    m.SetAdditionalData(make(map[string]interface{}));
     return m
 }
 // CreateConnectionOperationFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
 func CreateConnectionOperationFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewConnectionOperation(), nil
+}
+// GetAdditionalData gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+func (m *ConnectionOperation) GetAdditionalData()(map[string]interface{}) {
+    if m == nil {
+        return nil
+    } else {
+        return m.additionalData
+    }
 }
 // GetError gets the error property value. If status is failed, provides more information about the error that caused the failure.
 func (m *ConnectionOperation) GetError()(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.PublicErrorable) {
@@ -84,7 +95,19 @@ func (m *ConnectionOperation) Serialize(writer i878a80d2330e89d26896388a3f487eef
             return err
         }
     }
+    {
+        err = writer.WriteAdditionalData(m.GetAdditionalData())
+        if err != nil {
+            return err
+        }
+    }
     return nil
+}
+// SetAdditionalData sets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+func (m *ConnectionOperation) SetAdditionalData(value map[string]interface{})() {
+    if m != nil {
+        m.additionalData = value
+    }
 }
 // SetError sets the error property value. If status is failed, provides more information about the error that caused the failure.
 func (m *ConnectionOperation) SetError(value iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.PublicErrorable)() {

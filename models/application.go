@@ -5,11 +5,13 @@ import (
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91 "github.com/microsoft/kiota-abstractions-go/serialization"
 )
 
-// Application provides operations to call the instantiate method.
+// Application provides operations to manage the collection of application entities.
 type Application struct {
     DirectoryObject
     // Defines custom behavior that a consuming service can use to call an app in specific contexts. For example, applications that can render file streams may set the addIns property for its 'FileHandler' functionality. This will let services like Office 365 call the application in the context of a document the user is working on.
     addIns []AddInable
+    // Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+    additionalData map[string]interface{}
     // Specifies settings for an application that implements a web API.
     api ApiApplicationable
     // The unique identifier for the application that is assigned by Azure AD. Not nullable. Read-only.
@@ -90,6 +92,7 @@ func NewApplication()(*Application) {
     m := &Application{
         DirectoryObject: *NewDirectoryObject(),
     }
+    m.SetAdditionalData(make(map[string]interface{}));
     return m
 }
 // CreateApplicationFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
@@ -102,6 +105,14 @@ func (m *Application) GetAddIns()([]AddInable) {
         return nil
     } else {
         return m.addIns
+    }
+}
+// GetAdditionalData gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+func (m *Application) GetAdditionalData()(map[string]interface{}) {
+    if m == nil {
+        return nil
+    } else {
+        return m.additionalData
     }
 }
 // GetApi gets the api property value. Specifies settings for an application that implements a web API.
@@ -1107,12 +1118,24 @@ func (m *Application) Serialize(writer i878a80d2330e89d26896388a3f487eef27b0a0e6
             return err
         }
     }
+    {
+        err = writer.WriteAdditionalData(m.GetAdditionalData())
+        if err != nil {
+            return err
+        }
+    }
     return nil
 }
 // SetAddIns sets the addIns property value. Defines custom behavior that a consuming service can use to call an app in specific contexts. For example, applications that can render file streams may set the addIns property for its 'FileHandler' functionality. This will let services like Office 365 call the application in the context of a document the user is working on.
 func (m *Application) SetAddIns(value []AddInable)() {
     if m != nil {
         m.addIns = value
+    }
+}
+// SetAdditionalData sets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+func (m *Application) SetAdditionalData(value map[string]interface{})() {
+    if m != nil {
+        m.additionalData = value
     }
 }
 // SetApi sets the api property value. Specifies settings for an application that implements a web API.

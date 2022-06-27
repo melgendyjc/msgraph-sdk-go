@@ -4,9 +4,11 @@ import (
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91 "github.com/microsoft/kiota-abstractions-go/serialization"
 )
 
-// BookingAppointment represents a booked appointment of a service by a customer in a business.
+// BookingAppointment 
 type BookingAppointment struct {
     Entity
+    // Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+    additionalData map[string]interface{}
     // Additional information that is sent to the customer when an appointment is confirmed.
     additionalInformation *string
     // It lists down the customer properties for an appointment. An appointment will contain a list of customer information and each unit will indicate the properties of a customer who is part of that appointment. Optional.
@@ -54,16 +56,25 @@ type BookingAppointment struct {
     // The startDateTime property
     startDateTime DateTimeTimeZoneable
 }
-// NewBookingAppointment instantiates a new bookingAppointment and sets the default values.
+// NewBookingAppointment instantiates a new BookingAppointment and sets the default values.
 func NewBookingAppointment()(*BookingAppointment) {
     m := &BookingAppointment{
         Entity: *NewEntity(),
     }
+    m.SetAdditionalData(make(map[string]interface{}));
     return m
 }
 // CreateBookingAppointmentFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
 func CreateBookingAppointmentFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewBookingAppointment(), nil
+}
+// GetAdditionalData gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+func (m *BookingAppointment) GetAdditionalData()(map[string]interface{}) {
+    if m == nil {
+        return nil
+    } else {
+        return m.additionalData
+    }
 }
 // GetAdditionalInformation gets the additionalInformation property value. Additional information that is sent to the customer when an appointment is confirmed.
 func (m *BookingAppointment) GetAdditionalInformation()(*string) {
@@ -649,7 +660,19 @@ func (m *BookingAppointment) Serialize(writer i878a80d2330e89d26896388a3f487eef2
             return err
         }
     }
+    {
+        err = writer.WriteAdditionalData(m.GetAdditionalData())
+        if err != nil {
+            return err
+        }
+    }
     return nil
+}
+// SetAdditionalData sets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+func (m *BookingAppointment) SetAdditionalData(value map[string]interface{})() {
+    if m != nil {
+        m.additionalData = value
+    }
 }
 // SetAdditionalInformation sets the additionalInformation property value. Additional information that is sent to the customer when an appointment is confirmed.
 func (m *BookingAppointment) SetAdditionalInformation(value *string)() {

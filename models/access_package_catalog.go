@@ -5,11 +5,13 @@ import (
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91 "github.com/microsoft/kiota-abstractions-go/serialization"
 )
 
-// AccessPackageCatalog provides operations to manage the identityGovernance singleton.
+// AccessPackageCatalog provides operations to manage the collection of agreementAcceptance entities.
 type AccessPackageCatalog struct {
     Entity
     // The access packages in this catalog. Read-only. Nullable. Supports $expand.
     accessPackages []AccessPackageable
+    // Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+    additionalData map[string]interface{}
     // One of UserManaged or ServiceDefault.
     catalogType *AccessPackageCatalogType
     // The Timestamp type represents date and time information using ISO 8601 format and is always in UTC time. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. Read-only.
@@ -30,6 +32,7 @@ func NewAccessPackageCatalog()(*AccessPackageCatalog) {
     m := &AccessPackageCatalog{
         Entity: *NewEntity(),
     }
+    m.SetAdditionalData(make(map[string]interface{}));
     return m
 }
 // CreateAccessPackageCatalogFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
@@ -42,6 +45,14 @@ func (m *AccessPackageCatalog) GetAccessPackages()([]AccessPackageable) {
         return nil
     } else {
         return m.accessPackages
+    }
+}
+// GetAdditionalData gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+func (m *AccessPackageCatalog) GetAdditionalData()(map[string]interface{}) {
+    if m == nil {
+        return nil
+    } else {
+        return m.additionalData
     }
 }
 // GetCatalogType gets the catalogType property value. One of UserManaged or ServiceDefault.
@@ -249,12 +260,24 @@ func (m *AccessPackageCatalog) Serialize(writer i878a80d2330e89d26896388a3f487ee
             return err
         }
     }
+    {
+        err = writer.WriteAdditionalData(m.GetAdditionalData())
+        if err != nil {
+            return err
+        }
+    }
     return nil
 }
 // SetAccessPackages sets the accessPackages property value. The access packages in this catalog. Read-only. Nullable. Supports $expand.
 func (m *AccessPackageCatalog) SetAccessPackages(value []AccessPackageable)() {
     if m != nil {
         m.accessPackages = value
+    }
+}
+// SetAdditionalData sets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+func (m *AccessPackageCatalog) SetAdditionalData(value map[string]interface{})() {
+    if m != nil {
+        m.additionalData = value
     }
 }
 // SetCatalogType sets the catalogType property value. One of UserManaged or ServiceDefault.
